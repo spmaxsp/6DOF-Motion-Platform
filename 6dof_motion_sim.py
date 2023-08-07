@@ -35,20 +35,11 @@ points_platform = np.array([
                             [0.8, -1, 3]   #b6
                             ])    
 
-def plot_points(ax, points, color):
-    ax.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
 
-def plot_connecting_lines(ax, points, color):
-    for i in range(len(points)):
-        ax.plot([points[i, 0], points[i-1, 0]], [points[i, 1], points[i-1, 1]], [points[i, 2], points[i-1, 2]], color=color)
 
-def plot_base(ax, points):
-    plot_points(ax, points, 'red')
-    plot_connecting_lines(ax, points, 'red')
-
-def plot_platform(ax, points):
-    plot_points(ax, points, 'blue')
-    plot_connecting_lines(ax, points, 'blue')
+###                                         ###
+###      FUNCTIONS FOR TRANSFORMATIONS      ###
+###                                         ###
 
 def find_center(points):
     return np.mean(points, axis=0)
@@ -102,6 +93,33 @@ def apply_translations(points, x, y, z):
 
     return points
 
+
+
+###                                  ###
+###      FUNCTIONS FOR PLOTTING      ###
+###                                  ###
+
+def plot_points(ax, points, color):
+    ax.scatter(points[:, 0], points[:, 1], points[:, 2], color=color)
+
+def plot_connecting_lines(ax, points, color):
+    for i in range(len(points)):
+        ax.plot([points[i, 0], points[i-1, 0]], [points[i, 1], points[i-1, 1]], [points[i, 2], points[i-1, 2]], color=color)
+
+def plot_base(ax, points):
+    plot_points(ax, points, 'red')
+    plot_connecting_lines(ax, points, 'red')
+
+def plot_platform(ax, points):
+    plot_points(ax, points, 'blue')
+    plot_connecting_lines(ax, points, 'blue')
+
+
+
+###                             ###
+###      MAIN PLOT FUNCTION     ###
+###                             ###
+
 def plot_3d():
     global ax
 
@@ -115,11 +133,17 @@ def plot_3d():
     ax.set_zlim3d(-1, 2)
 
     plot_base(ax, points_base)
-    plot_platform(ax, points_platform_rot_trans)
+    plot_platform(ax, points_platform_rot)
 
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
+
+
+
+###                                 ###
+###      MAIN TKINTER FUNCTIONS     ###
+###                                 ###
 
 def redraw_all():
     global ax
@@ -165,6 +189,11 @@ def init_window():
     tk_draw_sliders_trams(frame)
     frame.pack(side=LEFT)
 
+
+
+###                                    ###
+###     TKINTER FUNCTIONS FOR UI       ###
+###                                    ###
 
 def tk_draw_textboxes_points_base(frame):
     global points_base
